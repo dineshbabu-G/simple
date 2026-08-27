@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // In a real project this is where you'd send data to a server.
     // Here we just show a success message, since this is a static site.
-fetch("https://backend-r6vw.onrender.com", {
+fetch("https://backend-r6vw.onrender.com/api/contact", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
