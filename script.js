@@ -193,8 +193,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // In a real project this is where you'd send data to a server.
     // Here we just show a success message, since this is a static site.
-    contactForm.reset();
-    contactSuccess.classList.remove("hidden");
+fetch("YOUR_RENDER_BACKEND_URL/api/contact", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: name,
+    email: email,
+    message: message
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      contactForm.reset();
+      contactSuccess.classList.remove("hidden");
+
+      setTimeout(function () {
+        contactSuccess.classList.add("hidden");
+      }, 4000);
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("Could not connect to the server.");
+  });
 
     setTimeout(function () {
       contactSuccess.classList.add("hidden");
