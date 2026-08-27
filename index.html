@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Activity Hub</title>
+
+  <!-- Google Fonts: Fraunces for headings, Inter for body text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ NAVIGATION BAR ============ -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">Student Activity Hub</a>
+
+      <!-- Hamburger button, only visible on mobile -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#activities" class="nav-link">Activities</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO SECTION ============ -->
+  <section class="hero" id="home">
+    <div class="hero-ruled-lines" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Your campus, organized</p>
+      <h1 class="hero-heading">Manage Your Student Activities Easily</h1>
+      <p class="hero-description">
+        Keep track of every club meeting, match, and rehearsal in one place.
+        Log activities in seconds and see your student life come together on a single page.
+      </p>
+      <a href="#activities" class="btn btn-primary" id="getStartedBtn">Get Started</a>
+    </div>
+  </section>
+
+  <!-- ============ ACTIVITIES SECTION ============ -->
+  <section class="activities" id="activities">
+    <div class="section-container">
+      <h2 class="section-heading">Explore Activities</h2>
+      <p class="section-subheading">Three categories, endless ways to get involved.</p>
+
+      <div class="card-grid">
+        <!-- Card 1 -->
+        <article class="card">
+          <div class="card-icon">📚</div>
+          <h3>Academic Activities</h3>
+          <p>Study groups, quiz bowls, coding clubs, and workshops that sharpen your mind outside the classroom.</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+          <div class="card-icon">🏆</div>
+          <h3>Sports Activities</h3>
+          <p>Team practices, tournaments, and fitness sessions to keep you active and build school spirit.</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+          <div class="card-icon">🎭</div>
+          <h3>Cultural Activities</h3>
+          <p>Drama, music, dance, and art events that celebrate creativity and campus culture.</p>
+        </article>
+      </div>
+
+      <!-- ============ INTERACTIVE FEATURE: ADD ACTIVITY ============ -->
+      <div class="add-activity-section">
+        <button class="btn btn-secondary" id="addActivityBtn">+ Add Activity</button>
+
+        <!-- This form is hidden by default and shown via JavaScript -->
+        <form id="activityForm" class="activity-form hidden">
+          <h3>Log a New Activity</h3>
+
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="e.g. Priya Sharma" />
+            <span class="error-message" id="studentNameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="activityName">Activity Name</label>
+            <input type="text" id="activityName" placeholder="e.g. Chess Club Meetup" />
+            <span class="error-message" id="activityNameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="activityCategory">Activity Category</label>
+            <select id="activityCategory">
+              <option value="">Select a category</option>
+              <option value="Academic">Academic</option>
+              <option value="Sports">Sports</option>
+              <option value="Cultural">Cultural</option>
+            </select>
+            <span class="error-message" id="activityCategoryError"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Activity</button>
+            <button type="button" class="btn btn-ghost" id="cancelActivityBtn">Cancel</button>
+          </div>
+        </form>
+
+        <!-- Success message shown after a valid submission -->
+        <p class="success-message hidden" id="activitySuccess">✅ Activity added successfully!</p>
+
+        <!-- Newly added activities appear here as index cards -->
+        <div class="activity-list" id="activityList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT SECTION ============ -->
+  <section class="about" id="about">
+    <div class="section-container about-container">
+      <h2 class="section-heading">Why This Hub Exists</h2>
+      <p class="about-text">
+        Student Activity Hub helps students and coordinators track participation across academics,
+        sports, and culture without juggling spreadsheets or paper sign-up sheets. Log an activity,
+        share it with your class, and keep a running record of everything happening on campus &mdash;
+        all from a single, simple page.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT SECTION ============ -->
+  <section class="contact" id="contact">
+    <div class="section-container">
+      <h2 class="section-heading">Get in Touch</h2>
+      <p class="section-subheading">Questions, suggestions, or feedback? Send us a message.</p>
+
+      <form id="contactForm" class="contact-form">
+        <div class="form-group">
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" placeholder="Your full name" />
+          <span class="error-message" id="contactNameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="contactEmail">Email</label>
+          <input type="email" id="contactEmail" placeholder="you@example.com" />
+          <span class="error-message" id="contactEmailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" rows="4" placeholder="Write your message here..."></textarea>
+          <span class="error-message" id="contactMessageError"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send Message</button>
+        <p class="success-message hidden" id="contactSuccess">✅ Message sent! We'll get back to you soon.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <p>&copy; 2026 Student Activity Hub</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+/* =========================================================
+   STUDENT ACTIVITY HUB — STYLESHEET
+   Design concept: a tidy campus notebook.
+   The hero reads like a ruled notebook page, and activity
+   cards behave like little index cards you'd pin to a board.
+   ========================================================= */
+
+/* ---------- Design tokens (CSS variables) ---------- */
+:root {
+  --bg: #faf9f6;              /* paper white background */
+  --ink: #1e2a38;             /* dark navy-charcoal text */
+  --ink-soft: #4a5568;        /* softer body text */
+  --primary: #2f6f5e;         /* deep teal-green (brand color) */
+  --primary-dark: #234f43;
+  --accent: #f2b84b;          /* marigold "highlighter" accent */
+  --accent-dark: #cf9a2f;
+  --card-bg: #ffffff;
+  --line: #ded9cd;            /* faint ruled-line color */
+  --error: #c0392b;
+  --radius: 14px;
+  --shadow-sm: 0 2px 8px rgba(30, 42, 56, 0.06);
+  --shadow-md: 0 10px 24px rgba(30, 42, 56, 0.10);
+  --max-width: 1120px;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Reset & base ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* smooth scroll fallback; JS also handles this */
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Visible keyboard focus for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.section-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-heading {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.section-subheading {
+  text-align: center;
+  color: var(--ink-soft);
+  margin-bottom: 48px;
+  font-size: 1.05rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--accent);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--accent-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 2px solid var(--line);
+}
+
+.btn-ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 249, 246, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--ink-soft);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--ink);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Hamburger icon — hidden on desktop */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.menu-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Hamburger turns into an "X" when the menu is open */
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* =========================================================
+   HERO SECTION — styled like a notebook page
+   ========================================================= */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 110px 24px 100px;
+  text-align: center;
+}
+
+/* Faint ruled lines in the background, like notebook paper */
+.hero-ruled-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 43px,
+    var(--line) 44px
+  );
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+}
+
+.hero-heading {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  margin-bottom: 32px;
+}
+
+/* =========================================================
+   ACTIVITY CARDS — index-card look
+   ========================================================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 32px 26px;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--accent);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  box-shadow: var(--shadow-md);
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+}
+
+/* ---------- Add Activity feature ---------- */
+.add-activity-section {
+  margin-top: 64px;
+  text-align: center;
+}
+
+.activity-form {
+  max-width: 480px;
+  margin: 28px auto 0;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-md);
+  text-align: left;
+  animation: reveal 0.3s ease;
+}
+
+.activity-form h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  background: #fff;
+  color: var(--ink);
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+}
+
+/* Red border shown when a field fails validation */
+.form-group input.invalid,
+.form-group select.invalid,
+.form-group textarea.invalid {
+  border-color: var(--error);
+}
+
+.error-message {
+  display: block;
+  color: var(--error);
+  font-size: 0.82rem;
+  margin-top: 4px;
+  min-height: 1em;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.success-message {
+  margin-top: 20px;
+  color: var(--primary-dark);
+  font-weight: 600;
+  background: rgba(47, 111, 94, 0.1);
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 999px;
+}
+
+/* Dynamically added activities appear as small index cards */
+.activity-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 36px;
+  text-align: left;
+}
+
+.activity-item {
+  background: var(--card-bg);
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  animation: reveal 0.3s ease;
+}
+
+.activity-item .activity-category {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+  background: rgba(47, 111, 94, 0.1);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.activity-item h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.activity-item p {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* =========================================================
+   ABOUT SECTION
+   ========================================================= */
+.about {
+  background: #f1efe8;
+}
+
+.about-container {
+  max-width: 760px;
+  text-align: center;
+}
+
+.about-text {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+/* =========================================================
+   CONTACT SECTION
+   ========================================================= */
+.contact-form {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  padding: 36px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-form .btn {
+  width: 100%;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  text-align: center;
+  padding: 28px 24px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-links.open {
+    max-height: 300px;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .section-container {
+    padding: 56px 20px;
+  }
+
+  .hero {
+    padding: 80px 20px 64px;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
